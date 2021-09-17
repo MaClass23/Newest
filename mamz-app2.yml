@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  become: true
+
+  tasks:
+  - name: create docker image using war file
+    command: docker build -t mamx-image:2 .
+    args:
+      chdir: /opt/docker
+
+  - name: create tag to image
+    command: docker tag mamx-image:2  maclass23/mamx-image:2
+
+  - name: push image to dockerhub
+    command: docker push maclass23/mamx-image:2
+
+  - name: remove docker images
+    command: docker rmi mamx-image:2  maclass23/mamx-image:2
+    ignore_errors: yes
